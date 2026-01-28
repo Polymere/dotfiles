@@ -1,0 +1,29 @@
+alias duv="doppler run -- uv run"
+alias gcan="git commit --amend --no-verify"
+alias gcap="git commit --amend && git push --force"
+alias rr="ruff check --fix && ruff format"
+alias gsws="git switch staging"
+alias ss="source .venv/bin/activate"
+function gbr {
+    git for-each-ref --sort=-committerdate --format='%(committerdate:relative) | %(refname:short) | %(subject)' refs/heads/ | head -${1:-5} | column -t -s '|'
+}
+function glr {
+    git log -${1:-5} --pretty=format:'%C(yellow)%h%Creset - %s %C(green)(%cr)%Creset' --no-merges
+}
+
+function wta {
+    root=$(git rev-parse --show-toplevel) || return 1
+    base=${2:-staging}
+    worktree_path="$root/../$(basename "$root")-$1"
+    if [ -d "$worktree_path" ]; then
+        cd "$worktree_path"
+        return
+    fi
+    git fetch origin "$base" || return 1
+    if git show-ref --verify --quiet refs/heads/"$1"; then
+        git worktree add "$worktree_path" "$1" || return 1
+    else
+        git worktree add -b "$1" "$worktree_path" "origin/$base" || return 1
+    fi
+    cd "$worktree_path"
+}
