@@ -1,0 +1,112 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)",
+      "Bash(git log:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(git show:*)",
+      "Bash(git restore:*)",
+      "Bash(git tag:*)",
+      "Bash(git branch:*)",
+      "Bash(git -C *)",
+      "Bash(gh :*)",
+      "Bash(bun:*)",
+      "Bash(bunx oxlint:*)",
+      "Bash(bunx oxfmt:*)",
+      "Bash(uv:*)",
+      "Bash(python:*)",
+      "Bash(docker:*)",
+      "Bash(ruff:*)",
+      "Bash(actionlint:*)",
+      "Bash(shellcheck:*)",
+      "Bash(codespell:*)",
+      "Bash(pre-commit:*)",
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "Bash(lsof:*)",
+      "Bash(ss:*)",
+      "Bash(xargs:*)",
+      "Bash(test:*)",
+      "Bash(grep:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(cat:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.astral.sh)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.github.com)",
+      "WebFetch(domain:docs.slack.dev)",
+      "WebFetch(domain:linear.app)",
+      "mcp__Notion__notion-search",
+      "mcp__Notion__notion-fetch",
+      "mcp__linear-server__list_issues",
+      "mcp__linear-server__get_issue",
+      "mcp__linear-server__update_issue",
+      "mcp__linear-server__create_issue",
+      "mcp__linear-server__list_issue_statuses",
+      "mcp__linear-server__get_project",
+      "mcp__linear-server__list_projects",
+      "mcp__linear-server__get_document",
+      "mcp__linear-server__list_documents",
+      "mcp__linear-server__list_comments",
+      "mcp__linear-server__create_document",
+      "mcp__linear-server__search_documentation",
+      "mcp__linear-server__list_teams",
+      "mcp__linear-server__list_milestones",
+      "mcp__linear-server__create_milestone",
+      "mcp__linear-server__create_project_update",
+      "Skill(commit)"
+    ],
+    "deny": [
+      "Bash(git push * staging)",
+      "Bash(git push * staging:*)",
+      "Bash(git reset:*)",
+      "Bash(git -C * push * staging)",
+      "Bash(git -C * push * staging:*)",
+      "Bash(git -C * reset:*)",
+      "Bash(doppler run:*)",
+      "Bash(chmod:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase_foundry_prod",
+    "supabase_lighthouse"
+  ],
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/paul/.claude/notify.sh \"I did the thing 🤓\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/paul/.claude/notify.sh \"Haaaalp  🥹\""
+          }
+        ]
+      }
+    ]
+  }
+}
