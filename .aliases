@@ -1,0 +1,44 @@
+alias duvp="doppler run -- uv run"
+alias duv="doppler run -p bli_analysis -c dev -- uv run"
+alias gcan="git commit --amend --no-verify"
+alias gcap="git commit --amend && git push --force"
+alias rr="ruff check --fix && ruff format"
+alias gsws="git switch staging"
+alias gcst="git checkout staging -- "
+alias ss="source .venv/bin/activate"
+alias dsclear="docker system prune --volumes --force"
+function gbr {
+    git for-each-ref --sort=-committerdate --format='%(committerdate:relative) | %(refname:short) | %(subject)' refs/heads/ | head -${1:-5} | column -t -s '|'
+}
+function glr {
+    git log -${1:-5} --pretty=format:'%C(yellow)%h%Creset - %s %C(green)(%cr)%Creset' --no-merges
+}
+
+# wta <branch> [base]: Create or switch to a git worktree for the given branch.
+# Usage: wta my-feature        - worktree based on staging (default)
+#        wta my-feature main   - worktree based on main
+function wta {
+    # Get the repo root so the worktree is placed as a sibling directory
+    root=$(git rev-parse --show-toplevel) || return 1
+    base=${2:-staging}
+    worktree_path="$root/../$(basename "$root")-$1"
+
+    # If the worktree directory already exists, just cd into it
+    if [ -d "$worktree_path" ]; then
+        cd "$worktree_path"
+        return
+    fi
+
+    # Fetch the latest base branch from origin
+    git fetch origin "$base" || return 1
+
+    # If a local branch with this name exists, use it; otherwise create a new one from origin/<base>
+    if git show-ref --verify --quiet refs/heads/"$1"; then
+        git worktree add "$worktree_path" "$1" || return 1
+    else
+        git worktree add -b "$1" "$worktree_path" "origin/$base" || return 1
+    fi
+
+    cd "$worktree_path"
+}
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
